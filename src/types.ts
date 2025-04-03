@@ -11,3 +11,7 @@ export type StudentProps = {
     }) => void
     student: Student
 }
+
+export type SemesterProps = {
+    getSemNo: (semNo: number) => void
+}

@@ -7,5 +7,9 @@ router.get("/students/:regno", async (req, res) => {
     res.status(200).json(student);
 });
 
+router.get("/semesters", async (req, res) => {
+    const semesters = await db.Course.distinct("semester");
+    res.status(200).json(semesters)
+});
 
 export default router
