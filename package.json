@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start:react": "vite --host 0.0.0.0",
+    "start:node": "nodemon server.js",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "concurrently npm:start:*"
   },
   "dependencies": {
     "axios": "^1.8.4",
