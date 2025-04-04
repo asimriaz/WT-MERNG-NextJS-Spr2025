@@ -32,4 +32,5 @@ export type Course = {
         crsIds: number[];
     }) => void,
     cids: number[],
+    addRegs: () => void
   }

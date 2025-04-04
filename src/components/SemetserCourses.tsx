@@ -3,7 +3,7 @@ import { Course, SemetserCoursesProps } from "../types";
 
 import { api } from "../api";
 
-export default function SemetserCourses({ semno, cids, getCourseIds }: SemetserCoursesProps) {
+export default function SemetserCourses({ semno, cids, getCourseIds, addRegs }: SemetserCoursesProps) {
 	const [courses, setCourses] = useState<Course[]>([]);
 
 	useEffect(() => {
@@ -47,7 +47,7 @@ export default function SemetserCourses({ semno, cids, getCourseIds }: SemetserC
 				</tbody>
 			</table>
             {cids.length !== 0 && (
-                <a href="#">Register</a>
+                <a href="#" onClick={addRegs}>Register</a>
             )}             
 		</>
 	);

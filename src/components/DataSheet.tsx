@@ -3,6 +3,7 @@ import Student from "./Student";
 import { Student as StudentType } from "../types";
 import Semester from "./Semester";
 import SemetserCourses from "./SemetserCourses";
+import { api } from "../api";
 
 export default function DataSheet() {
 	const [student, setStudent] = useState<StudentType>({} as StudentType);
@@ -26,6 +27,15 @@ export default function DataSheet() {
         }
     }
 
+    const addRegs = () => {
+        api.post(`/api/regs/add`,{
+            regno: student.regno,
+            courseids: JSON.stringify(courseids)
+        }).then((res) => {
+            console.log(res.data)   
+        })
+    }    
+
 	return (
 		<div style={{ display: "flex", flexDirection: "row" }}>
 			<div style={{ flexGrow: 2 }}>
@@ -37,6 +47,7 @@ export default function DataSheet() {
                                     semno={semNo}
                                     getCourseIds={getCourseIds}
                                     cids={courseids}
+                                    addRegs={addRegs} 
                                 />}
 
 			</div>
