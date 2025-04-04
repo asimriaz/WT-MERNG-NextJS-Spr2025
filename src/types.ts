@@ -15,3 +15,15 @@ export type StudentProps = {
 export type SemesterProps = {
     getSemNo: (semNo: number) => void
 }
+
+export type Course = {
+    courseid: number,
+    code: string,
+    title: string,
+    crhr: number,
+    semester: number
+  }
+  
+  export type SemetserCoursesProps = {
+      semno: number
+  }

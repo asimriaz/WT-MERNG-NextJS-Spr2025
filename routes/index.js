@@ -12,4 +12,10 @@ router.get("/semesters", async (req, res) => {
     res.status(200).json(semesters)
 });
 
+router.get("/courses/:semno", async (req, res) => {
+    const { semno } = req.params
+    const course = await db.Course.find({ semester: semno }).sort({ courseid: 1 });
+    res.status(200).json(course)
+})
+
 export default router
