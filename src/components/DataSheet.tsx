@@ -18,6 +18,7 @@ export default function DataSheet() {
         setStudent(args.student); 
         setRegs(args.regs);
         setGrades(args.grades);
+        setSemNo(0);
     }
 
 	const getSemNo = (semNo: number) => {
@@ -44,12 +45,16 @@ export default function DataSheet() {
         })
     }    
 
+    const updateReg = (reg: Reg) => {
+        setRegs(regs.map(r => r._id === reg._id ? {...r, gradeid: reg.gradeid, grade: grades.find(g => g.gradeid === reg.gradeid)} : r));
+    }
+
 	return (
 		<div style={{ display: "flex", flexDirection: "row" }}>
 			<div style={{ flexGrow: 2 }}>
 				<Student getStudent={getStudent} student={student} />
 				<div>&nbsp;</div>
-				{Object.keys(student).length > 0 && <Semester getSemNo={getSemNo} />}
+				{Object.keys(student).length > 0 && <Semester getSemNo={getSemNo} semNo={semNo}/>}
                 <div>&nbsp;</div>
                     {semNo > 0 && <SemetserCourses 
                                     semno={semNo}
@@ -61,7 +66,7 @@ export default function DataSheet() {
 
 			</div>
 			<div style={{ flexGrow: 2 }}>
-                {regs.length > 0 && <RegCourse regs={regs} grades={grades}/>} 
+                {regs.length > 0 && <RegCourse regs={regs} grades={grades} updateReg={updateReg}/>} 
             </div>
 			<div style={{ flexGrow: 1, overflowY: "auto", height: "95vh" }}>
 				<pre style={{ alignItems: "left" }}>{JSON.stringify({ student, semNo, courseids, regs }, null, 4)}</pre>

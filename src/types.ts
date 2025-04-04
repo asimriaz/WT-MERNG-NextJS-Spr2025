@@ -22,7 +22,8 @@ export type StudentProps = {
 }
 
 export type SemesterProps = {
-    getSemNo: (semNo: number) => void
+    getSemNo: (semNo: number) => void, 
+    semNo: number
 }
 
 export type Course = {
@@ -57,4 +58,5 @@ export type Course = {
 export type RegCourseProps = {
     regs: Reg[], 
     grades: Grade[],
+    updateReg: (reg: Reg) => void
 }

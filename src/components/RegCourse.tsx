@@ -2,11 +2,23 @@ import React from "react";
 import { RegCourseProps } from "../types";
 import { api } from "../api";
 
-export default function RegCourse({ regs, grades }: RegCourseProps) {
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        console.log(name, value);
-    }  
+export default function RegCourse({ regs, grades, updateReg }: RegCourseProps) {
+	const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const { name, value } = e.target;
+		console.log(name, value);
+		api.post(`/api/regs/update`, {
+			regid: name,
+			gradeid: value,
+		}).then((res) => {
+			console.log(res.data);
+			updateReg(res.data);
+		});
+	};
+
+	let graded = regs.filter((r) => r.gradeid !== null);
+	let CGPA = (graded.reduce((sum, r) => r.course.crhr * (r.grade?.gpa || 0) + sum, 0) / 
+                graded.reduce((sum, r) => r.course.crhr + sum, 0)).toFixed(2);
+
 	return (
 		<>
 			<table>
@@ -26,7 +38,7 @@ export default function RegCourse({ regs, grades }: RegCourseProps) {
 							<td>{reg.course.title}</td>
 							<td>{reg.course.crhr}</td>
 							<td>
-                            <select name={reg._id} value={reg.gradeid || ''} onChange={handleChange}>
+								<select name={reg._id} value={reg.gradeid || ""} onChange={handleChange}>
 									<option hidden></option>
 									{grades.map((grade) => (
 										<option key={grade.gradeid} value={grade.gradeid}>
@@ -35,10 +47,17 @@ export default function RegCourse({ regs, grades }: RegCourseProps) {
 									))}
 								</select>
 							</td>
-							<td>{reg.gradeid !== null ? grades.find((g) => g.gradeid === reg.gradeid)?.gpa : ''}</td>
+							<td>{reg.gradeid !== null ? grades.find((g) => g.gradeid === reg.gradeid)?.gpa : ""}</td>
 						</tr>
 					))}
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colSpan={3}></td>
+						<td><b>CGPA</b></td>
+						<td>{isNaN(Number(CGPA)) ? 0.0 : CGPA}</td>
+					</tr>
+				</tfoot>
 			</table>
 		</>
 	);

@@ -5,7 +5,7 @@ const router = express.Router();
 router.get("/students/:regno", async (req, res) => {
     const student = await db.Student.findOne({ regno: req.params.regno });
     const [regs, grades] = await getStudentRegs(req.params.regno);
-    res.status(200).json({student, regs, grades});
+    res.status(200).json({ student, regs, grades });
 });
 
 router.get("/semesters", async (req, res) => {
@@ -19,6 +19,21 @@ router.get("/courses/:semno", async (req, res) => {
     res.status(200).json(course)
 });
 
+router.post("/regs/update", async (req, res) => {
+    console.log(`body >`, req.body);
+
+    const UpdatedReg = await db.Registration.findByIdAndUpdate(
+        { _id: req.body.regid },
+        {
+            $set: {
+                gradeid: req.body.gradeid
+            }
+        },
+        { new: true })
+
+    res.status(200).json(UpdatedReg);
+});
+
 router.post("/regs/add", async (req, res) => {
     console.log(`body >`, req.body);
 
@@ -30,8 +45,8 @@ router.post("/regs/add", async (req, res) => {
     }
 
     db.Registration.insertMany(regs).then(async response => {
-        if(response.length !== 0){
-            const[regs, grades] = await getStudentRegs(req.body.regno);
+        if (response.length !== 0) {
+            const [regs, grades] = await getStudentRegs(req.body.regno);
             res.status(200).json(regs);
         }
     });
