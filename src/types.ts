@@ -26,4 +26,10 @@ export type Course = {
   
   export type SemetserCoursesProps = {
       semno: number
+      getCourseIds: (args: {
+        name: string;
+        value: number;
+        crsIds: number[];
+    }) => void,
+    cids: number[],
   }

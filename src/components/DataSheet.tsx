@@ -7,6 +7,7 @@ import SemetserCourses from "./SemetserCourses";
 export default function DataSheet() {
 	const [student, setStudent] = useState<StudentType>({} as StudentType);
 	const [semNo, setSemNo] = useState<number>(0);
+    const [courseids, setCourseIds] = useState<number[]>([]);
 
 	const getStudent = (args: { student: StudentType }) => {
 		setStudent(args.student);
@@ -15,6 +16,15 @@ export default function DataSheet() {
 	const getSemNo = (semNo: number) => {
 		setSemNo(semNo);
 	};
+
+    const getCourseIds = ( args : { name: string; value: number; crsIds: number[] }) => {
+        if(args.name === "master") {
+            setCourseIds(args.crsIds)
+        }else{
+            let index = courseids.indexOf(args.value);
+            setCourseIds(index === -1 ? [...courseids, args.value] : courseids.filter(id => id !== args.value))
+        }
+    }
 
 	return (
 		<div style={{ display: "flex", flexDirection: "row" }}>
@@ -25,12 +35,14 @@ export default function DataSheet() {
                 <div>&nbsp;</div>
                     {semNo > 0 && <SemetserCourses 
                                     semno={semNo}
+                                    getCourseIds={getCourseIds}
+                                    cids={courseids}
                                 />}
 
 			</div>
 			<div style={{ flexGrow: 2 }}></div>
 			<div style={{ flexGrow: 1, overflowY: "auto", height: "95vh" }}>
-				<pre style={{ alignItems: "left" }}>{JSON.stringify({ student, semNo }, null, 4)}</pre>
+				<pre style={{ alignItems: "left" }}>{JSON.stringify({ student, semNo, courseids }, null, 4)}</pre>
 			</div>
 		</div>
 	);

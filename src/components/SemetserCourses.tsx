@@ -3,7 +3,7 @@ import { Course, SemetserCoursesProps } from "../types";
 
 import { api } from "../api";
 
-export default function SemetserCourses({ semno }: SemetserCoursesProps) {
+export default function SemetserCourses({ semno, cids, getCourseIds }: SemetserCoursesProps) {
 	const [courses, setCourses] = useState<Course[]>([]);
 
 	useEffect(() => {
@@ -12,13 +12,19 @@ export default function SemetserCourses({ semno }: SemetserCoursesProps) {
 		});
 	}, [semno]);
 
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value, checked } = e.target;
+		let crsIds = checked ? courses.map((course) => course.courseid) : [];
+		getCourseIds({ name, value: Number(value), crsIds });
+	};
+
 	return (
 		<>
 			<table>
 				<tbody>
 					<tr>
 						<th>
-							<input type="checkbox" name="master" />
+							<input type="checkbox" name="master" onChange={handleChange} />
 						</th>
 						<th>Code</th>
 						<th style={{ width: "350px" }}>Title</th>
@@ -27,7 +33,11 @@ export default function SemetserCourses({ semno }: SemetserCoursesProps) {
 					{courses.map((course) => (
 						<tr key={course.courseid}>
 							<td>
-								<input type="checkbox" name="courseid" value={course.courseid} />
+								<input type="checkbox" 
+                                    name="courseid" 
+                                    value={course.courseid} 
+                                    onChange={handleChange} 
+                                    checked={cids.includes(course.courseid) }/>
 							</td>
 							<td>{course.code}</td>
 							<td>{course.title}</td>
@@ -36,6 +46,9 @@ export default function SemetserCourses({ semno }: SemetserCoursesProps) {
 					))}
 				</tbody>
 			</table>
+            {cids.length !== 0 && (
+                <a href="#">Register</a>
+            )}             
 		</>
 	);
 }
