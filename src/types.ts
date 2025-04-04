@@ -4,6 +4,13 @@ export type Student = {
     fathername: string
 }
 
+export type Grade = {
+	gradeid: number,
+	start: number,
+	end: number,
+	grade: string,
+	gpa: number    
+}
 
 export type StudentProps = {
     getStudent: (args: {
@@ -33,4 +40,18 @@ export type Course = {
     }) => void,
     cids: number[],
     addRegs: () => void
+    regs: Reg[]
   }
+
+  export type Reg = {
+    _id: string,
+    course: Course,
+    regno: string,
+    courseid: number, 
+    gradeid?: number, 
+    grade?: Grade,
+}
+
+export type RegCourseProps = {
+    regs: Reg[], 
+}

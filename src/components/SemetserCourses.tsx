@@ -3,7 +3,7 @@ import { Course, SemetserCoursesProps } from "../types";
 
 import { api } from "../api";
 
-export default function SemetserCourses({ semno, cids, getCourseIds, addRegs }: SemetserCoursesProps) {
+export default function SemetserCourses({ semno, cids, regs, getCourseIds, addRegs }: SemetserCoursesProps) {
 	const [courses, setCourses] = useState<Course[]>([]);
 
 	useEffect(() => {
@@ -33,11 +33,13 @@ export default function SemetserCourses({ semno, cids, getCourseIds, addRegs }: 
 					{courses.map((course) => (
 						<tr key={course.courseid}>
 							<td>
+                            {regs?.some((reg) => reg.courseid === course.courseid) ? '' : (
 								<input type="checkbox" 
                                     name="courseid" 
                                     value={course.courseid} 
                                     onChange={handleChange} 
                                     checked={cids.includes(course.courseid) }/>
+                            )}
 							</td>
 							<td>{course.code}</td>
 							<td>{course.title}</td>

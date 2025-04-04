@@ -1,14 +1,16 @@
 import { useState } from "react";
 import Student from "./Student";
-import { Student as StudentType } from "../types";
+import { Reg, Student as StudentType } from "../types";
 import Semester from "./Semester";
 import SemetserCourses from "./SemetserCourses";
 import { api } from "../api";
+import RegCourse from "./RegCourse";
 
 export default function DataSheet() {
 	const [student, setStudent] = useState<StudentType>({} as StudentType);
 	const [semNo, setSemNo] = useState<number>(0);
     const [courseids, setCourseIds] = useState<number[]>([]);
+    const [regs, setRegs] = useState<Reg[]>([]);
 
 	const getStudent = (args: { student: StudentType }) => {
 		setStudent(args.student);
@@ -32,7 +34,9 @@ export default function DataSheet() {
             regno: student.regno,
             courseids: JSON.stringify(courseids)
         }).then((res) => {
-            console.log(res.data)   
+            console.log(res.data);
+            setRegs([...regs, ...(res.data as Reg[]).filter(a => !regs.some(r => a.courseid === r.courseid))]);
+            setCourseIds([]); 
         })
     }    
 
@@ -47,13 +51,16 @@ export default function DataSheet() {
                                     semno={semNo}
                                     getCourseIds={getCourseIds}
                                     cids={courseids}
-                                    addRegs={addRegs} 
+                                    addRegs={addRegs}
+                                    regs={regs} 
                                 />}
 
 			</div>
-			<div style={{ flexGrow: 2 }}></div>
+			<div style={{ flexGrow: 2 }}>
+                {regs.length > 0 && <RegCourse regs={regs} />} 
+            </div>
 			<div style={{ flexGrow: 1, overflowY: "auto", height: "95vh" }}>
-				<pre style={{ alignItems: "left" }}>{JSON.stringify({ student, semNo, courseids }, null, 4)}</pre>
+				<pre style={{ alignItems: "left" }}>{JSON.stringify({ student, semNo, courseids, regs }, null, 4)}</pre>
 			</div>
 		</div>
 	);
