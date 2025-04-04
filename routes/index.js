@@ -4,7 +4,8 @@ const router = express.Router();
 
 router.get("/students/:regno", async (req, res) => {
     const student = await db.Student.findOne({ regno: req.params.regno });
-    res.status(200).json(student);
+    const [regs, grades] = await getStudentRegs(req.params.regno);
+    res.status(200).json({student, regs, grades});
 });
 
 router.get("/semesters", async (req, res) => {

@@ -14,7 +14,9 @@ export type Grade = {
 
 export type StudentProps = {
     getStudent: (args: {
-        student: Student, 
+        student: Student,
+        regs: Reg[],
+        grades: Grade[] 
     }) => void
     student: Student
 }

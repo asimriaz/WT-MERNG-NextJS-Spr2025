@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Student from "./Student";
-import { Reg, Student as StudentType } from "../types";
+import { Grade, Reg, Student as StudentType } from "../types";
 import Semester from "./Semester";
 import SemetserCourses from "./SemetserCourses";
 import { api } from "../api";
@@ -12,9 +12,13 @@ export default function DataSheet() {
     const [courseids, setCourseIds] = useState<number[]>([]);
     const [regs, setRegs] = useState<Reg[]>([]);
 
-	const getStudent = (args: { student: StudentType }) => {
-		setStudent(args.student);
-	};
+    const [grades, setGrades] = useState<Grade[]>([]);
+    
+    const getStudent= (args: {student: StudentType, regs: Reg[], grades: Grade[]}) => {
+        setStudent(args.student); 
+        setRegs(args.regs);
+        setGrades(args.grades);
+    }
 
 	const getSemNo = (semNo: number) => {
 		setSemNo(semNo);
