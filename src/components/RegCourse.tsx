@@ -2,11 +2,14 @@ import React from "react";
 import { RegCourseProps } from "../types";
 import { api } from "../api";
 
-export default function RegCourse({ regs }: RegCourseProps) {
-  
+export default function RegCourse({ regs, grades }: RegCourseProps) {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        console.log(name, value);
+    }  
 	return (
 		<>
-			<table className="table table-bordered table-striped table-hover table-sm">
+			<table>
 				<thead>
 					<tr>
 						<th>Code</th>
@@ -23,11 +26,16 @@ export default function RegCourse({ regs }: RegCourseProps) {
 							<td>{reg.course.title}</td>
 							<td>{reg.course.crhr}</td>
 							<td>
-								<select >
+                            <select name={reg._id} value={reg.gradeid || ''} onChange={handleChange}>
 									<option hidden></option>
+									{grades.map((grade) => (
+										<option key={grade.gradeid} value={grade.gradeid}>
+											{grade.grade}
+										</option>
+									))}
 								</select>
 							</td>
-							<td></td>
+							<td>{reg.gradeid !== null ? grades.find((g) => g.gradeid === reg.gradeid)?.gpa : ''}</td>
 						</tr>
 					))}
 				</tbody>

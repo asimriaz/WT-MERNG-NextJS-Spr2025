@@ -56,4 +56,5 @@ export type Course = {
 
 export type RegCourseProps = {
     regs: Reg[], 
+    grades: Grade[],
 }

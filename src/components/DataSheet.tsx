@@ -61,7 +61,7 @@ export default function DataSheet() {
 
 			</div>
 			<div style={{ flexGrow: 2 }}>
-                {regs.length > 0 && <RegCourse regs={regs} />} 
+                {regs.length > 0 && <RegCourse regs={regs} grades={grades}/>} 
             </div>
 			<div style={{ flexGrow: 1, overflowY: "auto", height: "95vh" }}>
 				<pre style={{ alignItems: "left" }}>{JSON.stringify({ student, semNo, courseids, regs }, null, 4)}</pre>
